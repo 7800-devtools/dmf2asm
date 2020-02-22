@@ -1,0 +1,13 @@
+ARCH=Win32.x86
+CFLAGS=-O2 -m32
+CC=i686-w64-mingw32-gcc
+LDIR=contrib/${ARCH}
+ 
+all: dmf2asm.${ARCH}.exe
+ 
+dmf2asm.${ARCH}.exe: dmf2asm.c
+	$(CC) $(CFLAGS) dmf2asm.c -o $@ -L${LDIR}/lib -I${LDIR}/include -lz
+ 
+clean:
+	rm -f dmf2asm.${ARCH}.exe
+

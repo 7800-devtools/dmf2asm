@@ -1,0 +1,13 @@
+CC     = gcc
+CFLAGS = -Wall -g -O0 -m32
+ARCH = Linux.x86
+LDIR=contrib/${ARCH}
+ 
+all: dmf2asm.${ARCH}
+ 
+dmf2asm.${ARCH}: dmf2asm.c
+	$(CC) $(CFLAGS) dmf2asm.c -o $@ -L${LDIR}/lib -I${LDIR}/include -lz
+ 
+clean:
+	rm -f dmf2asm.${ARCH}
+

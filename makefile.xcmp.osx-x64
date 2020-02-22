@@ -1,0 +1,14 @@
+export PATH := /usr/i686-apple-darwin10/bin:$(PATH)
+CC=i686-apple-darwin10-gcc
+CFLAGS=-arch i386 -m64 -O0
+ARCH=Darwin.x64
+LDIR=contrib/${ARCH}
+ 
+all: dmf2asm.${ARCH}
+ 
+dmf2asm.${ARCH}: dmf2asm.c
+	$(CC) $(CFLAGS) dmf2asm.c -o $@ -L${LDIR}/lib -I${LDIR}/include -lz
+ 
+clean:
+	rm -f dmf2asm.${ARCH}
+
