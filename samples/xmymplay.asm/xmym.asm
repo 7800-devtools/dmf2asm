@@ -130,9 +130,20 @@ xmym_service_jsr
   beq xmym_service_notpaused 
 xmym_service_return1
   rts
+xmym_service_songended
+  lda xmym_tick
+  bne xmym_service_songended_noteoffchecks
+  rts
+xmym_service_songended_noteoffchecks 
+ ; If we send note-on followed too quickly by note-off, we get noise.
+ ; This routine runs the note offs when the song has ended and the tick
+ ;  counter has counted down some extra frames.
+  dec xmym_tick
+  bne xmym_service_return1
+  jmp xmym_stop_jsr
 xmym_service_notpaused
   lda xmym_playsremaining
-  beq xmym_service_return1 ; the song has finished playing. we should leave.
+  beq xmym_service_songended ; the song has finished playing. we should check final ticks, and then leave.
   lda xmym_songpointerlo ; check if the song pointer is non-null...
   ora xmym_songpointerhi
   beq xmym_service_return1 ; ...nope. we should leave.
@@ -251,7 +262,9 @@ xmym_service_advancepatternrow
        bmi xmym_service_skipsongloopdecrement ; negative means infinite loops
        dec xmym_playsremaining
        bne xmym_service_skipsongloopdecrement
-         jmp xmym_stop_jsr ; note the JMP
+         lda #5
+         sta xmym_tick
+         rts
 xmym_service_skipsongloopdecrement
      ; if we're here, we have loops left. clear the matrix pointer, so it
      ; gets initialized the next time through, just like it did the first
