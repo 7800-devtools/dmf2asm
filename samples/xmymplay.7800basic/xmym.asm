@@ -260,9 +260,13 @@ xmym_service_skipsongloopdecrement
      sta xmym_pmpointerlo
      sta xmym_pmpointerhi
 xmym_service_doneadvancepatternrow
-     ; setup the ticks for next time
-     ; TODO: support for different tick sizes on even and off frames
-     ldy #FRAMESPERTICK
+     ; setup the ticks for next time. 
+     ; if we're on an odd patter row, use the alternate tick value
+     lda xmym_patternindex 
+     lsr ; set carry if the low bit of xmym_patternindex is on
+     lda #FRAMESPERTICK
+     adc #0
+     tay
      lda (xmym_songpointerlo),y
      sta xmym_tick
      rts
