@@ -41,7 +41,7 @@ Dfm2asm and Xmym Tracker Features
 
  Second, dmf2asm will check if all of the pattern data only has rests on the 
  odd-numbered beats. If this is true, all patterns will be squeezed by 
- dropping those odd beat resets and adjusting the tick rate appropriately. 
+ dropping those odd beat resets and adjusting the tick rates appropriately. 
  This squeezing is repeated until the DMF data can be squeezed no more.
 
  Each song can be run with a different priority value, which will determine
